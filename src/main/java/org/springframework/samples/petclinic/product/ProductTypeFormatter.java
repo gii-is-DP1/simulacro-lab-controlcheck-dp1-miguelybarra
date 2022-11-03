@@ -6,19 +6,25 @@ import java.util.Locale;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
+import lombok.AllArgsConstructor;
+
 @Component
+@AllArgsConstructor
 public class ProductTypeFormatter implements Formatter<ProductType>{
+
+    ProductService productService;
 
     @Override
     public String print(ProductType object, Locale locale) {
-        // TODO Auto-generated method stub
-        return null;
+        return object.getName();
     }
 
     @Override
     public ProductType parse(String text, Locale locale) throws ParseException {
-        // TODO Auto-generated method stub
-        return null;
+        ProductType productType = productService.getProductType(text);
+        if (productType == null) {
+            throw new ParseException("Product type not found: " + text, 0);
+        }
+        return productType;
     }
-    
 }
